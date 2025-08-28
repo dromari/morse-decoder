@@ -1,4 +1,3 @@
-/*
 const MORSE_TABLE = {
   '.-': 'a',
   '-...': 'b',
@@ -37,8 +36,27 @@ const MORSE_TABLE = {
   '----.': '9',
   '-----': '0',
 };
-*/
 
-module.exports = function decode(/* expr */) {
-  throw new Error('Not implemented');
+module.exports = function decode(expr) {
+  const arr = [];
+  for (let i = 0; i < expr.length; i += 10) {
+    arr.push(expr.slice(i, i + 10));
+  }
+  const newArr = arr.map((elArr) =>
+    elArr !== '**********' ? Number(elArr) : elArr
+  );
+
+  const newStringArr = newArr.map((elArr) =>
+    elArr !== '**********' ? String(elArr) : ' '
+  );
+
+  const arrDashes = newStringArr.map((elArr) => elArr.replaceAll('11', '-'));
+
+  const arrDots = arrDashes.map((elArr) => elArr.replaceAll('10', '.'));
+
+  const inLitters = arrDots.map((elArr) =>
+    elArr !== ' ' ? MORSE_TABLE[elArr] : ' '
+  );
+
+  return inLitters.join('');
 };
